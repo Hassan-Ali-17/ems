@@ -6,13 +6,20 @@ const USER_KEY = 'ems_user';
 
 const AuthContext = createContext(null);
 
-const initialState = {
-  token: localStorage.getItem(TOKEN_KEY) || '',
-  user: JSON.parse(localStorage.getItem(USER_KEY) || 'null'),
-  loading: false,
-  initializing: true,
-  error: ''
-};
+function getInitialState() {
+  try {
+    return {
+      token: localStorage.getItem(TOKEN_KEY) || '',
+      user: JSON.parse(localStorage.getItem(USER_KEY) || 'null'),
+      loading: false,
+      initializing: true,
+      error: ''
+    };
+  } catch {
+    return { token: '', user: null, loading: false, initializing: true, error: '' };
+  }
+}
+const initialState = getInitialState();
 
 function reducer(state, action) {
   switch (action.type) {
@@ -34,13 +41,15 @@ function reducer(state, action) {
 }
 
 function persistAuth(token, user) {
-  if (token && user) {
-    localStorage.setItem(TOKEN_KEY, token);
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
-  } else {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-  }
+  try {
+    if (token && user) {
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
+    }
+  } catch { /* storage unavailable, ignore */ }
 }
 
 export function AuthProvider({ children }) {
