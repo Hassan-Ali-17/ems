@@ -22,7 +22,7 @@ services:
     container_name: ems_backend
     restart: unless-stopped
     environment:
-      NODE_ENV: ${NODE_ENV:-development}
+      NODE_ENV: ${NODE_ENV:-production}
       PORT: ${PORT:-5000}
       MONGODB_URI: mongodb://${MONGO_ROOT_USERNAME:-admin}:${MONGO_ROOT_PASSWORD:-password123}@mongodb:27017/${MONGO_DB_NAME:-ems_db}?authSource=admin
       JWT_SECRET: ${JWT_SECRET:-supersecretjwtkey_change_me}
@@ -33,8 +33,6 @@ services:
     depends_on:
       - mongodb
     volumes:
-      - ./backend:/app
-      - /app/node_modules
       - uploads_data:/app/uploads
 
 volumes:
