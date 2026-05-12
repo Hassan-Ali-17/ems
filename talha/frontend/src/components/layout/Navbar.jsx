@@ -33,8 +33,8 @@ export default function Navbar() {
           </ul>
 
           <div className="d-flex gap-2 align-items-center">
-            <button 
-              className="theme-toggle" 
+            <button
+              className="theme-toggle"
               onClick={toggleTheme}
               title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
@@ -42,7 +42,7 @@ export default function Navbar() {
             </button>
             {token && user ? (
               <>
-                <Link className="btn btn-outline-light btn-sm" to="/profile">{user.name.split(' ')[0]}</Link>
+                <Link className="btn btn-outline-light btn-sm" to="/profile">{user?.name?.split(' ')[0]}</Link>
                 <button className="btn btn-info btn-sm fw-semibold" onClick={handleLogout}>Logout</button>
               </>
             ) : (
